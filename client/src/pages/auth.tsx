@@ -13,10 +13,15 @@ export default function AuthPage({ mode }: { mode: 'sign-in' | 'sign-up' }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const email = formData.get("email") as string;
+    const name = email.split("@")[0];
+    
     // Mock successful auth
     setTimeout(() => {
       localStorage.setItem("isLoggedIn", "true");
-      setLocation("/");
+      localStorage.setItem("userName", name.charAt(0).toUpperCase() + name.slice(1));
+      setLocation("/dashboard");
       setIsLoading(false);
     }, 1500);
   };

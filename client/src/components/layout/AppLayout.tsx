@@ -1,14 +1,29 @@
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, FileText, Map, Mic, Settings, User, Bell, Menu, X } from "lucide-react";
+import { LayoutDashboard, FileText, Map, Mic, Settings, User, Bell, Menu, X, LogOut, ExternalLink, Briefcase } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Badge } from "@/components/ui/badge";
 import generatedImage from '@assets/generated_images/abstract_geometric_tech_pattern_with_blue_and_purple_gradients_for_career_ai_dashboard_background.png';
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const userName = localStorage.getItem("userName") || "John Doe";
 
   const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -17,8 +32,15 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     { name: "Mock Interview", href: "/interview", icon: Mic },
   ];
 
+  const notifications = [
+    { title: "Senior React Dev", company: "Vercel", salary: "$160k - $220k", date: "2m ago" },
+    { title: "Frontend Engineer", company: "Stripe", salary: "$140k - $190k", date: "1h ago" },
+    { title: "Fullstack Developer", company: "OpenAI", salary: "$180k - $250k", date: "3h ago" },
+  ];
+
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userName");
     window.location.href = "/";
   };
 
@@ -83,19 +105,35 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="p-4 border-t border-sidebar-border">
-          <div className="bg-sidebar-accent/30 rounded-xl p-4 flex items-center gap-3">
-            <Avatar className="w-10 h-10 border border-primary/20">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">John Doe</p>
-              <p className="text-xs text-muted-foreground truncate" onClick={handleLogout} style={{cursor: 'pointer'}}>Log out</p>
-            </div>
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-white">
-              <Settings className="w-4 h-4" />
-            </Button>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="bg-sidebar-accent/30 rounded-xl p-4 flex items-center gap-3 cursor-pointer hover:bg-sidebar-accent/50 transition-colors">
+                <Avatar className="w-10 h-10 border border-primary/20">
+                  <AvatarImage src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${userName}`} />
+                  <AvatarFallback>{userName[0]}</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-white truncate">{userName}</p>
+                  <p className="text-xs text-muted-foreground truncate">View Profile</p>
+                </div>
+                <Settings className="w-4 h-4 text-muted-foreground" />
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56 glass border-border/50 mb-2" align="start">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator className="bg-border/50" />
+              <DropdownMenuItem className="cursor-pointer gap-2">
+                <User className="w-4 h-4" /> Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer gap-2">
+                <Settings className="w-4 h-4" /> Settings
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="bg-border/50" />
+              <DropdownMenuItem className="cursor-pointer gap-2 text-destructive focus:text-destructive" onClick={handleLogout}>
+                <LogOut className="w-4 h-4" /> Sign Out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </aside>
 
@@ -118,12 +156,44 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-            </Button>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary relative group">
+                  <Bell className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full animate-pulse" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 glass border-border/50 p-0" align="end">
+                <div className="p-4 border-b border-border/50 flex items-center justify-between">
+                  <h4 className="font-display font-semibold text-white">Latest Job Matches</h4>
+                  <Badge variant="outline" className="text-[10px] bg-primary/10 border-primary/20">New</Badge>
+                </div>
+                <div className="divide-y divide-border/50">
+                  {notifications.map((job, i) => (
+                    <div key={i} className="p-4 hover:bg-white/5 transition-colors cursor-pointer group">
+                      <div className="flex items-start justify-between mb-1">
+                        <div className="flex items-center gap-2">
+                          <Briefcase className="w-3.5 h-3.5 text-primary" />
+                          <h5 className="text-sm font-medium text-white group-hover:text-primary transition-colors">{job.title}</h5>
+                        </div>
+                        <span className="text-[10px] text-muted-foreground">{job.date}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground mb-2">{job.company} • {job.salary}</p>
+                      <div className="flex items-center gap-1 text-[10px] text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                        View Details <ExternalLink className="w-2.5 h-2.5" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-3 text-center border-t border-border/50">
+                  <Button variant="ghost" size="sm" className="text-xs text-muted-foreground hover:text-white w-full">
+                    View All Opportunities
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
             <div className="h-6 w-px bg-border/50" />
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 font-medium px-6">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 font-medium px-6 hidden sm:flex">
               Upgrade to Pro
             </Button>
           </div>
