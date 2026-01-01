@@ -14,8 +14,8 @@ export default function AuthPage({ mode }: { mode: 'sign-in' | 'sign-up' }) {
     e.preventDefault();
     setIsLoading(true);
     const formData = new FormData(e.currentTarget as HTMLFormElement);
-    const email = formData.get("email") as string;
-    const name = email.split("@")[0];
+    const email = formData.get("email")?.toString() || "";
+    const name = email.includes("@") ? email.split("@")[0] : (email || "User");
     
     // Mock successful auth
     setTimeout(() => {
