@@ -1,4 +1,5 @@
 
+
  🤖 AI Career Assistant
 
 **AI Career Assistant** is a production-ready, AI-powered web application that helps students and early-career professionals improve employability through CV optimization, career roadmaps, and interview preparation.
@@ -140,4 +141,5 @@ I’m actively open to **global & remote frontend opportunities** and collaborat
 Feedback is welcome 🙌
 
 #FrontendEngineering #React #JavaScript #AI #WebDevelopment #OpenToWork #RemoteJobs
+
 
