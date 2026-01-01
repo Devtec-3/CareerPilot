@@ -1,6 +1,4 @@
 
-
-
 # 🤖 AI Career Assistant
 
 AI Career Assistant is a web-based application designed to help...
@@ -22,10 +20,11 @@ AI Career Assistant is a web-based application designed to help...
 
 ## 2️⃣ LIVE DEMO SECTION (VERY STRONG SIGNAL)
 
+```md
 ## 🚀 Live Demo
 Live URL [https://my-fintech-app.onrender.com/]
 GitHub Repository [https://github.com/Devtec-3/CareerPilot.git]
-
+```
 
 ### WHY THIS MATTERS
 
@@ -39,13 +38,14 @@ Recruiter thought process:
 
 Even a simple demo = **big advantage**
 
-
+---
 
 ## 3️⃣ PROBLEM STATEMENT (PRODUCT THINKING)
 
+```md
 ## 🎯 Problem Statement
 Many students struggle with...
-
+```
 
 ### WHY THIS MATTERS
 
@@ -61,6 +61,7 @@ Senior engineers LOVE this section.
 
 ## 4️⃣ FEATURES SECTION (SCANNABLE BULLETS)
 
+```md
 ## ✨ Features
 AI Chat Assistant
 CV Review
@@ -182,3 +183,4 @@ Real-world problem solving
 AI integration
 Product thinking
 ```
+
