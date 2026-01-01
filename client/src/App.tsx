@@ -10,10 +10,12 @@ import RoadmapPage from "@/pages/roadmap";
 import InterviewPage from "@/pages/interview";
 import LandingPage from "@/pages/landing";
 import AuthPage from "@/pages/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 
-// Mock Auth Hook
-function useAuth() {
+// Auth Context for better hook usage
+const AuthContext = createContext<{ isLoggedIn: boolean | null }>({ isLoggedIn: null });
+
+function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -22,18 +24,25 @@ function useAuth() {
       setIsLoggedIn(status);
     };
     checkAuth();
-    // Simple polling for mock behavior
     const interval = setInterval(checkAuth, 1000);
     return () => clearInterval(interval);
   }, []);
 
-  return { isLoggedIn };
+  return (
+    <AuthContext.Provider value={{ isLoggedIn }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+function useAuth() {
+  return useContext(AuthContext);
 }
 
 function ProtectedRoute({ component: Component, ...rest }: any) {
   const { isLoggedIn } = useAuth();
 
-  if (isLoggedIn === null) return null; // Loading state
+  if (isLoggedIn === null) return null;
 
   return (
     <Route {...rest}>
@@ -47,7 +56,6 @@ function Router() {
 
   return (
     <Switch>
-      {/* Public Routes */}
       <Route path="/">
         {isLoggedIn ? <Redirect to="/dashboard" /> : <LandingPage />}
       </Route>
@@ -58,13 +66,11 @@ function Router() {
         <AuthPage mode="sign-up" />
       </Route>
 
-      {/* Protected Routes */}
       <ProtectedRoute path="/dashboard" component={DashboardPage} />
       <ProtectedRoute path="/resume" component={ResumePage} />
       <ProtectedRoute path="/roadmap" component={RoadmapPage} />
       <ProtectedRoute path="/interview" component={InterviewPage} />
 
-      {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
   );
@@ -73,10 +79,12 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
