@@ -76,11 +76,17 @@ export default function LandingPage() {
               className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
             >
               <Link href="/sign-up">
-                <Button size="lg" className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 group">
-                  Start Free Trial <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <Button size="lg" className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 group relative overflow-hidden">
+                  <motion.span
+                    initial={{ x: 0 }}
+                    whileHover={{ x: 5 }}
+                    className="flex items-center"
+                  >
+                    Start Free Trial <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </motion.span>
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-semibold glass">
+              <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-semibold glass hover:bg-white/10 transition-colors">
                 <Play className="mr-2 w-4 h-4 fill-current" /> Watch Demo
               </Button>
             </motion.div>
@@ -89,23 +95,43 @@ export default function LandingPage() {
 
         {/* Features Preview */}
         <section id="features" className="py-24 px-6 bg-card/30 backdrop-blur-sm border-y border-border/50">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div 
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: { staggerChildren: 0.15 }
+              }
+            }}
+            className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
             {[
               { icon: Rocket, title: "Resume Analysis", desc: "Get real-time ATS scoring and keyword suggestions." },
               { icon: Target, title: "Career Roadmaps", desc: "Interactive flows to guide your skill development." },
               { icon: Zap, title: "AI Interviews", desc: "Live streaming feedback on your technical answers." }
             ].map((feature, i) => (
-              <Card key={i} className="glass border-border/50 hover:border-primary/50 transition-colors group">
-                <CardContent className="pt-8">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <feature.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-display font-semibold text-white mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>
-                </CardContent>
-              </Card>
+              <motion.div
+                key={i}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  show: { opacity: 1, y: 0 }
+                }}
+              >
+                <Card className="glass border-border/50 hover:border-primary/50 transition-colors group h-full">
+                  <CardContent className="pt-8">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300">
+                      <feature.icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-display font-semibold text-white mb-3">{feature.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </section>
 
         {/* Pricing Section */}
