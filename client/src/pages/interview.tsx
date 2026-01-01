@@ -1,7 +1,7 @@
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Mic, Square, Volume2, Cpu, CheckCircle2 } from "lucide-react";
+import { Mic, Square, Volume2, Cpu, CheckCircle2, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -10,22 +10,45 @@ export default function InterviewPage() {
   const [transcript, setTranscript] = useState("");
   const [currentQuestion, setCurrentQuestion] = useState("Tell me about a challenging technical problem you solved recently.");
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [isStreaming, setIsStreaming] = useState(false);
+  const [streamingFeedback, setStreamingFeedback] = useState("");
   const [audioLevel, setAudioLevel] = useState<number[]>(new Array(20).fill(10));
   
   const timerRef = useRef<any>(null);
+
+  const fullFeedback = "Your response effectively demonstrated technical leadership and problem-solving skills. Using the STAR method (Situation, Task, Action, Result) helped clarify your impact. You successfully highlighted how optimizing the React rendering cycle led to a 40% performance gain, which is a significant technical achievement. To improve, try to mention the specific tools used for profiling (e.g., Chrome DevTools or React Profiler) to add more technical depth.";
+
+  const streamFeedback = () => {
+    setIsStreaming(true);
+    setStreamingFeedback("");
+    const words = fullFeedback.split(" ");
+    let i = 0;
+    
+    const interval = setInterval(() => {
+      if (i < words.length) {
+        setStreamingFeedback(prev => prev + (i === 0 ? "" : " ") + words[i]);
+        i++;
+      } else {
+        clearInterval(interval);
+        setIsStreaming(false);
+        setFeedback(fullFeedback);
+      }
+    }, 50);
+  };
 
   const toggleRecording = () => {
     if (isRecording) {
       setIsRecording(false);
       clearInterval(timerRef.current);
-      // Simulate processing
+      // Start streaming simulation after a short processing pause
       setTimeout(() => {
-        setFeedback("Good structure. You utilized the STAR method well. However, you could have been more specific about the metrics of your success.");
-      }, 1500);
+        streamFeedback();
+      }, 1000);
     } else {
       setIsRecording(true);
       setTranscript("");
       setFeedback(null);
+      setStreamingFeedback("");
       // Simulate audio visualizer
       timerRef.current = setInterval(() => {
         setAudioLevel(prev => prev.map(() => Math.random() * 80 + 10));
@@ -124,6 +147,7 @@ export default function InterviewPage() {
                  variant={isRecording ? "destructive" : "default"}
                  className={cn("h-14 px-8 rounded-full shadow-lg transition-all", isRecording ? "shadow-red-500/20" : "shadow-primary/20")}
                  onClick={toggleRecording}
+                 disabled={isStreaming}
                >
                  {isRecording ? (
                    <>
@@ -138,21 +162,28 @@ export default function InterviewPage() {
              </div>
           </div>
 
-          {/* Feedback Section */}
+          {/* Feedback Section with Streaming UI */}
           <AnimatePresence>
-            {feedback && (
+            {(isStreaming || feedback) && (
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-green-500/10 border border-green-500/20 rounded-xl p-6"
+                className="bg-primary/10 border border-primary/20 rounded-xl p-6 relative overflow-hidden"
               >
+                <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
                 <div className="flex items-start gap-4">
-                  <div className="p-2 bg-green-500/20 rounded-full text-green-500 mt-1">
-                    <CheckCircle2 className="w-5 h-5" />
+                  <div className="p-2 bg-primary/20 rounded-full text-primary mt-1">
+                    {isStreaming ? <Loader2 className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
                   </div>
-                  <div>
-                    <h4 className="font-medium text-white mb-1">AI Feedback</h4>
-                    <p className="text-sm text-muted-foreground">{feedback}</p>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <h4 className="font-medium text-white">AI Analysis</h4>
+                      {isStreaming && <span className="text-[10px] text-primary animate-pulse font-mono">STREAMING_REALTIME...</span>}
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {streamingFeedback}
+                      {isStreaming && <span className="inline-block w-1.5 h-4 ml-1 bg-primary animate-pulse align-middle" />}
+                    </p>
                   </div>
                 </div>
               </motion.div>
