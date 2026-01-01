@@ -176,8 +176,43 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="relative z-10 py-20 px-6 text-center text-muted-foreground border-t border-border/50">
-        <p>© 2026 CareerPilot AI. All rights reserved.</p>
+      <footer className="relative z-10 py-20 px-6 border-t border-border/50 bg-card/20 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-left">
+          <div className="col-span-1 md:col-span-2 space-y-4">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+                <span className="font-display font-bold text-white text-xl">C</span>
+              </div>
+              <span className="font-display font-bold text-xl tracking-tight text-white">CareerPilot</span>
+            </div>
+            <p className="text-muted-foreground max-w-sm leading-relaxed">
+              The intelligent, data-driven career ecosystem for modern engineers. Build your roadmap, ace your interviews, and land your dream role.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-display font-bold text-white mb-6">Product</h4>
+            <ul className="space-y-4 text-sm">
+              <li><a href="#features" className="text-muted-foreground hover:text-primary transition-colors">Features</a></li>
+              <li><a href="#pricing" className="text-muted-foreground hover:text-primary transition-colors">Pricing</a></li>
+              <li><Link href="/roadmap" className="text-muted-foreground hover:text-primary transition-colors">Roadmaps</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-display font-bold text-white mb-6">Company</h4>
+            <ul className="space-y-4 text-sm">
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">About Us</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Careers</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-muted-foreground">© 2026 Devtec. All rights reserved.</p>
+          <div className="flex gap-8 text-sm text-muted-foreground">
+            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+          </div>
+        </div>
       </footer>
     </div>
   );
