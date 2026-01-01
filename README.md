@@ -6,6 +6,7 @@
 
 Built with a **frontend-first, user-centric approach**, the platform demonstrates modern web engineering practices and practical AI integration for real-world use cases, with a focus on **global and remote tech opportunities**.
 
+![image alt](https://github.com/Devtec-3/CareerPilot/blob/main/Screenshot%20(34).png?raw=true)
 
 
 ## 🚀 Live Demo
@@ -141,5 +142,6 @@ I’m actively open to **global & remote frontend opportunities** and collaborat
 Feedback is welcome 🙌
 
 #FrontendEngineering #React #JavaScript #AI #WebDevelopment #OpenToWork #RemoteJobs
+
 
 
