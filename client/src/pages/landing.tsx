@@ -1,0 +1,111 @@
+import { AppLayout } from "@/components/layout/AppLayout";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Link } from "wouter";
+import { Rocket, Sparkles, Target, Zap, ChevronRight, Play } from "lucide-react";
+import { motion } from "framer-motion";
+
+export default function LandingPage() {
+  return (
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30">
+      {/* Decorative background elements */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/10 rounded-full blur-[120px]" />
+      </div>
+
+      <nav className="relative z-10 max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+            <span className="font-display font-bold text-white text-xl">C</span>
+          </div>
+          <span className="font-display font-bold text-xl tracking-tight text-white">CareerPilot</span>
+        </div>
+        <div className="hidden md:flex items-center gap-8">
+          <a href="#features" className="text-sm text-muted-foreground hover:text-white transition-colors">Features</a>
+          <a href="#pricing" className="text-sm text-muted-foreground hover:text-white transition-colors">Pricing</a>
+          <div className="flex items-center gap-4">
+            <Link href="/sign-in">
+              <Button variant="ghost" className="text-sm font-medium">Log in</Button>
+            </Link>
+            <Link href="/sign-up">
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 font-medium px-6">
+                Get Started
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </nav>
+
+      <main className="relative z-10">
+        {/* Hero Section */}
+        <section className="pt-20 pb-32 px-6">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold mb-6">
+                <Sparkles className="w-3 h-3" /> AI-Powered Career Ecosystem
+              </span>
+              <h1 className="text-5xl md:text-7xl font-display font-bold text-white tracking-tight leading-[1.1]">
+                Launch Your Career with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Intelligent Precision</span>
+              </h1>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+            >
+              Analyze resumes, visualize custom career roadmaps, and practice with AI-driven interview simulators. Your senior-level career starts here.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+            >
+              <Link href="/sign-up">
+                <Button size="lg" className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 group">
+                  Start Free Trial <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-semibold glass">
+                <Play className="mr-2 w-4 h-4 fill-current" /> Watch Demo
+              </Button>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Features Preview */}
+        <section id="features" className="py-24 px-6 bg-card/30 backdrop-blur-sm border-y border-border/50">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { icon: Rocket, title: "Resume Analysis", desc: "Get real-time ATS scoring and keyword suggestions." },
+              { icon: Target, title: "Career Roadmaps", desc: "Interactive flows to guide your skill development." },
+              { icon: Zap, title: "AI Interviews", desc: "Live streaming feedback on your technical answers." }
+            ].map((feature, i) => (
+              <Card key={i} className="glass border-border/50 hover:border-primary/50 transition-colors group">
+                <CardContent className="pt-8">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <feature.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-display font-semibold text-white mb-3">{feature.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{feature.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+      </main>
+
+      <footer className="relative z-10 py-20 px-6 text-center text-muted-foreground border-t border-border/50">
+        <p>© 2026 CareerPilot AI. All rights reserved.</p>
+      </footer>
+    </div>
+  );
+}

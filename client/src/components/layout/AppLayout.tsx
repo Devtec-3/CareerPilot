@@ -11,11 +11,16 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigation = [
-    { name: "Dashboard", href: "/", icon: LayoutDashboard },
+    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Resume Analyzer", href: "/resume", icon: FileText },
     { name: "Career Roadmap", href: "/roadmap", icon: Map },
     { name: "Mock Interview", href: "/interview", icon: Mic },
   ];
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "/";
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans overflow-hidden flex relative">
@@ -44,12 +49,14 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
       >
-        <div className="p-6 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
-            <span className="font-display font-bold text-white text-xl">C</span>
+        <Link href="/">
+          <div className="p-6 flex items-center gap-3 cursor-pointer">
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
+              <span className="font-display font-bold text-white text-xl">C</span>
+            </div>
+            <span className="font-display font-bold text-xl tracking-tight text-white">CareerPilot</span>
           </div>
-          <span className="font-display font-bold text-xl tracking-tight text-white">CareerPilot</span>
-        </div>
+        </Link>
 
         <nav className="flex-1 px-4 py-6 space-y-2">
           {navigation.map((item) => {
@@ -83,7 +90,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             </Avatar>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-white truncate">John Doe</p>
-              <p className="text-xs text-muted-foreground truncate">Free Plan</p>
+              <p className="text-xs text-muted-foreground truncate" onClick={handleLogout} style={{cursor: 'pointer'}}>Log out</p>
             </div>
             <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-white">
               <Settings className="w-4 h-4" />
