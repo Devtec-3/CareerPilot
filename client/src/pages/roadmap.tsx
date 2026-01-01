@@ -30,8 +30,8 @@ const initialEdges: Edge[] = [
 ];
 
 export default function RoadmapPage() {
-  const [nodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
 
   const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
