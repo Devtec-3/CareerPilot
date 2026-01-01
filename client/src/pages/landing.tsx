@@ -2,7 +2,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "wouter";
-import { Rocket, Sparkles, Target, Zap, ChevronRight, Play } from "lucide-react";
+import { Rocket, Sparkles, Target, Zap, ChevronRight, Play, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function LandingPage() {
@@ -22,8 +22,14 @@ export default function LandingPage() {
           <span className="font-display font-bold text-xl tracking-tight text-white">CareerPilot</span>
         </div>
         <div className="hidden md:flex items-center gap-8">
-          <a href="#features" className="text-sm text-muted-foreground hover:text-white transition-colors">Features</a>
-          <a href="#pricing" className="text-sm text-muted-foreground hover:text-white transition-colors">Pricing</a>
+          <a href="#features" onClick={(e) => {
+            e.preventDefault();
+            document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+          }} className="text-sm text-muted-foreground hover:text-white transition-colors">Features</a>
+          <a href="#pricing" onClick={(e) => {
+            e.preventDefault();
+            document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+          }} className="text-sm text-muted-foreground hover:text-white transition-colors">Pricing</a>
           <div className="flex items-center gap-4">
             <Link href="/sign-in">
               <Button variant="ghost" className="text-sm font-medium">Log in</Button>
@@ -99,6 +105,73 @@ export default function LandingPage() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </section>
+
+        {/* Pricing Section */}
+        <section id="pricing" className="py-24 px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-display font-bold text-white mb-4">Simple, Transparent Pricing</h2>
+              <p className="text-muted-foreground text-lg">Choose the plan that fits your career goals.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {/* Free Plan */}
+              <Card className="glass border-border/50 p-8 flex flex-col h-full">
+                <div className="mb-8">
+                  <h3 className="text-2xl font-display font-bold text-white mb-2">Free</h3>
+                  <p className="text-muted-foreground">Perfect for getting started.</p>
+                  <div className="mt-4 flex items-baseline">
+                    <span className="text-4xl font-bold text-white">$0</span>
+                    <span className="ml-1 text-muted-foreground">/month</span>
+                  </div>
+                </div>
+                <ul className="space-y-4 mb-8 flex-1">
+                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <CheckCircle2 className="w-4 h-4 text-primary" /> 3 CV Scans per day
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <CheckCircle2 className="w-4 h-4 text-primary" /> Basic Roadmap
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <CheckCircle2 className="w-4 h-4 text-primary" /> Community Support
+                  </li>
+                </ul>
+                <Link href="/sign-up">
+                  <Button variant="outline" className="w-full h-12 glass">Get Started</Button>
+                </Link>
+              </Card>
+
+              {/* Pro Plan */}
+              <Card className="glass border-primary/50 p-8 flex flex-col h-full relative overflow-hidden group">
+                <div className="absolute top-0 right-0 bg-primary px-4 py-1 text-[10px] font-bold text-white uppercase tracking-widest rounded-bl-lg">Most Popular</div>
+                <div className="mb-8">
+                  <h3 className="text-2xl font-display font-bold text-white mb-2">Pro</h3>
+                  <p className="text-muted-foreground">For serious career growth.</p>
+                  <div className="mt-4 flex items-baseline">
+                    <span className="text-4xl font-bold text-white">$19</span>
+                    <span className="ml-1 text-muted-foreground">/month</span>
+                  </div>
+                </div>
+                <ul className="space-y-4 mb-8 flex-1">
+                  <li className="flex items-center gap-2 text-sm text-white font-medium">
+                    <Sparkles className="w-4 h-4 text-primary" /> Unlimited CV Scans
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-white font-medium">
+                    <Sparkles className="w-4 h-4 text-primary" /> Deep AI Analysis
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-white font-medium">
+                    <Sparkles className="w-4 h-4 text-primary" /> Unlimited AI Interviews
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-white font-medium">
+                    <Sparkles className="w-4 h-4 text-primary" /> Personalized Mentorship
+                  </li>
+                </ul>
+                <Link href="/sign-up">
+                  <Button className="w-full h-12 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">Go Pro</Button>
+                </Link>
+              </Card>
+            </div>
           </div>
         </section>
       </main>
